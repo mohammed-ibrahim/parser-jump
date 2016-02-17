@@ -1,7 +1,7 @@
 grammar Jump;
 
 ESC             : [ \t\n\r]+ -> skip;
-STRING          : [a-zA-Z0-9-_'"]+;
+STRING          : ~[ (),=]+;
 EQ              : '=';
 OPENPAREN       : '(';
 CLOSEPAREN      : ')';
