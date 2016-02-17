@@ -1,0 +1,11 @@
+T__0=1
+ESC=2
+STRING=3
+EQ=4
+OPENPAREN=5
+CLOSEPAREN=6
+ALNUMTEXT=7
+','=1
+'='=4
+'('=5
+')'=6

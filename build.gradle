@@ -1,0 +1,47 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Simple parser for Jump Application',
+                   'Implementation-Version': version,
+                   'Main-Class': 'org.jump.JumpGen'
+
+    }
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+       dirs 'lib'
+    }
+}
+
+dependencies {
+    compile name: 'antlr-4.5.1-complete'
+}
+
+task onejar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+            'Implementation-Version': version,
+            'Main-Class': 'org.jump.JumpGen'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
+task grammer(type:Exec) { 
+  commandLine = ['java', '-jar', 'lib/antlr-4.5.1-complete.jar', '/home/vagrant/www/work/parser-jump/src/main/Jump.g4', '-visitor', '-package', 'org.jump']  
+} 
