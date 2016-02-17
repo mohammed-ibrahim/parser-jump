@@ -1,11 +1,11 @@
-package org.jump;
+package org.jump.parser;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import java.util.*;
 
-import org.jump.grammer.*;
+import org.jump.parser.grammer.*;
 
 import java.io.StringWriter;
 import java.io.PrintWriter;

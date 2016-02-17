@@ -34,7 +34,7 @@ task onejar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Gradle Jar File Example',
             'Implementation-Version': version,
-            'Main-Class': 'org.jump.JumpGen'
+            'Main-Class': 'org.jump.parser.JumpGen'
     }
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

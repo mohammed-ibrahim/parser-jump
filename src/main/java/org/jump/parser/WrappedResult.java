@@ -1,8 +1,7 @@
-// Generated from ./src/main/antlr/Jump.g4 by ANTLR 4.5.1
-package org.jump;
+package org.jump.parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
-import org.jump.grammer.*;
+import org.jump.parser.grammer.*;
 import java.util.*;
 
 public class WrappedResult {
