@@ -30,4 +30,8 @@ public class FieldConfig {
     public ArrayList<String> getParams() {
         return params;
     }
+
+    public String toString() {
+        return fieldName + " " + fnName + " " + params.toString();
+    }
 }
