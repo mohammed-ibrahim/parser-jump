@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 
 public class JumpGen {
     public static void main(String[] args) {
-        String str = "col1mna = fun4ti'\"a ( pa-ramaa_, paramab, 1, 134 ), columnb = rwe!@#$%!@#$!%!@#$!@#%!@#$ ( paramaa, paramab, paramac, paramad)";
+        String str = "field_id = sql_com(\"select * from table1 adn ,''  then !#$!, \", 2)";
 
         if (args.length > 0) {
             str = args[0];

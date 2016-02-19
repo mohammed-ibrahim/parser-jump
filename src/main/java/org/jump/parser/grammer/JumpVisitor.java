@@ -31,4 +31,11 @@ public interface JumpVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParamList(JumpParser.ParamListContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ParamItem}
+	 * labeled alternative in {@link JumpParser#item}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamItem(JumpParser.ParamItemContext ctx);
 }

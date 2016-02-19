@@ -25,8 +25,10 @@ public class Analyzer extends JumpBaseVisitor<WrappedResult> {
 	@Override public WrappedResult visitFieldConfig(JumpParser.FieldConfigContext ctx) { 
         WrappedResult wr = new WrappedResult();
 
-        wr.addToList(ctx.STRING(0).getText());
-        wr.addToList(ctx.STRING(1).getText());
+        //WrappedResult item0 = (WrappedResult)visit(ctx.item(0));
+        //WrappedResult item1 = (WrappedResult)visit(ctx.item(1));
+        wr.addToList(ctx.WORD(0).getText());
+        wr.addToList(ctx.WORD(1).getText());
 
         //wr.addToList(ctx.STRING(2).getText());
         //WrappedResult fiName = (WrappedResult)visit(ctx.field_name());
@@ -44,10 +46,25 @@ public class Analyzer extends JumpBaseVisitor<WrappedResult> {
 
 	@Override public WrappedResult visitParamList(JumpParser.ParamListContext ctx) { 
         WrappedResult wr = new WrappedResult();
-        for (int i=0; i< ctx.STRING().size(); i++) {
-            wr.addToList(ctx.STRING(i).getText());
+        for (int i=0; i< ctx.item().size(); i++) {
+            WrappedResult inner = (WrappedResult)visit(ctx.item(i));
+            wr.addToList(inner.getItem());
         }
 
         return wr;
+    }
+
+	@Override public WrappedResult visitParamItem(JumpParser.ParamItemContext ctx) { 
+        if (ctx.STRING() != null) {
+            String text = ctx.STRING().getText();
+            text = text.substring(1, text.length()-1);
+            return new WrappedResult(text);
+        }
+
+        if (ctx.WORD() != null) {
+            return new WrappedResult(ctx.WORD().getText());
+        }
+
+        throw new RuntimeException("Given text is neither word not text");
     }
 }

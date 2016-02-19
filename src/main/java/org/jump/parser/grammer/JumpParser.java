@@ -17,18 +17,18 @@ public class JumpParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, ESC=2, STRING=3, EQ=4, OPENPAREN=5, CLOSEPAREN=6, ALNUMTEXT=7;
+		T__0=1, ESC=2, STRING=3, WORD=4, EQ=5, OPENPAREN=6, CLOSEPAREN=7;
 	public static final int
-		RULE_input = 0, RULE_field_config = 1, RULE_param_list = 2;
+		RULE_input = 0, RULE_field_config = 1, RULE_param_list = 2, RULE_item = 3;
 	public static final String[] ruleNames = {
-		"input", "field_config", "param_list"
+		"input", "field_config", "param_list", "item"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "','", null, null, "'='", "'('", "')'"
+		null, "','", null, null, null, "'='", "'('", "')'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, "ESC", "STRING", "EQ", "OPENPAREN", "CLOSEPAREN", "ALNUMTEXT"
+		null, null, "ESC", "STRING", "WORD", "EQ", "OPENPAREN", "CLOSEPAREN"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -113,21 +113,21 @@ public class JumpParser extends Parser {
 			_localctx = new FieldConfigListContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(6);
+			setState(8);
 			field_config();
-			setState(11);
+			setState(13);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(7);
+				setState(9);
 				match(T__0);
-				setState(8);
+				setState(10);
 				field_config();
 				}
 				}
-				setState(13);
+				setState(15);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -156,9 +156,9 @@ public class JumpParser extends Parser {
 		}
 	}
 	public static class FieldConfigContext extends Field_configContext {
-		public List<TerminalNode> STRING() { return getTokens(JumpParser.STRING); }
-		public TerminalNode STRING(int i) {
-			return getToken(JumpParser.STRING, i);
+		public List<TerminalNode> WORD() { return getTokens(JumpParser.WORD); }
+		public TerminalNode WORD(int i) {
+			return getToken(JumpParser.WORD, i);
 		}
 		public TerminalNode EQ() { return getToken(JumpParser.EQ, 0); }
 		public TerminalNode OPENPAREN() { return getToken(JumpParser.OPENPAREN, 0); }
@@ -181,17 +181,17 @@ public class JumpParser extends Parser {
 			_localctx = new FieldConfigContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(14);
-			match(STRING);
-			setState(15);
-			match(EQ);
 			setState(16);
-			match(STRING);
+			match(WORD);
 			setState(17);
-			match(OPENPAREN);
+			match(EQ);
 			setState(18);
-			param_list();
+			match(WORD);
 			setState(19);
+			match(OPENPAREN);
+			setState(20);
+			param_list();
+			setState(21);
 			match(CLOSEPAREN);
 			}
 		}
@@ -218,9 +218,11 @@ public class JumpParser extends Parser {
 		}
 	}
 	public static class ParamListContext extends Param_listContext {
-		public List<TerminalNode> STRING() { return getTokens(JumpParser.STRING); }
-		public TerminalNode STRING(int i) {
-			return getToken(JumpParser.STRING, i);
+		public List<ItemContext> item() {
+			return getRuleContexts(ItemContext.class);
+		}
+		public ItemContext item(int i) {
+			return getRuleContext(ItemContext.class,i);
 		}
 		public ParamListContext(Param_listContext ctx) { copyFrom(ctx); }
 		@Override
@@ -238,21 +240,21 @@ public class JumpParser extends Parser {
 			_localctx = new ParamListContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21);
-			match(STRING);
-			setState(26);
+			setState(23);
+			item();
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(22);
+				setState(24);
 				match(T__0);
-				setState(23);
-				match(STRING);
+				setState(25);
+				item();
 				}
 				}
-				setState(28);
+				setState(30);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -269,16 +271,67 @@ public class JumpParser extends Parser {
 		return _localctx;
 	}
 
+	public static class ItemContext extends ParserRuleContext {
+		public ItemContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_item; }
+	 
+		public ItemContext() { }
+		public void copyFrom(ItemContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ParamItemContext extends ItemContext {
+		public TerminalNode STRING() { return getToken(JumpParser.STRING, 0); }
+		public TerminalNode WORD() { return getToken(JumpParser.WORD, 0); }
+		public ParamItemContext(ItemContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JumpVisitor ) return ((JumpVisitor<? extends T>)visitor).visitParamItem(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ItemContext item() throws RecognitionException {
+		ItemContext _localctx = new ItemContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_item);
+		int _la;
+		try {
+			_localctx = new ParamItemContext(_localctx);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(31);
+			_la = _input.LA(1);
+			if ( !(_la==STRING || _la==WORD) ) {
+			_errHandler.recoverInline(this);
+			} else {
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t \4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\4\3\4\3\4\7\4\33\n\4\f\4\16\4\36\13\4\3\4\2\2\5\2\4\6\2\2\36"+
-		"\2\b\3\2\2\2\4\20\3\2\2\2\6\27\3\2\2\2\b\r\5\4\3\2\t\n\7\3\2\2\n\f\5\4"+
-		"\3\2\13\t\3\2\2\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2"+
-		"\17\r\3\2\2\2\20\21\7\5\2\2\21\22\7\6\2\2\22\23\7\5\2\2\23\24\7\7\2\2"+
-		"\24\25\5\6\4\2\25\26\7\b\2\2\26\5\3\2\2\2\27\34\7\5\2\2\30\31\7\3\2\2"+
-		"\31\33\7\5\2\2\32\30\3\2\2\2\33\36\3\2\2\2\34\32\3\2\2\2\34\35\3\2\2\2"+
-		"\35\7\3\2\2\2\36\34\3\2\2\2\4\r\34";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t$\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\7\2\16\n\2\f\2\16\2\21\13\2\3\3\3\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\4\3\4\3\4\7\4\35\n\4\f\4\16\4 \13\4\3\5\3\5\3\5\2\2"+
+		"\6\2\4\6\b\2\3\3\2\5\6!\2\n\3\2\2\2\4\22\3\2\2\2\6\31\3\2\2\2\b!\3\2\2"+
+		"\2\n\17\5\4\3\2\13\f\7\3\2\2\f\16\5\4\3\2\r\13\3\2\2\2\16\21\3\2\2\2\17"+
+		"\r\3\2\2\2\17\20\3\2\2\2\20\3\3\2\2\2\21\17\3\2\2\2\22\23\7\6\2\2\23\24"+
+		"\7\7\2\2\24\25\7\6\2\2\25\26\7\b\2\2\26\27\5\6\4\2\27\30\7\t\2\2\30\5"+
+		"\3\2\2\2\31\36\5\b\5\2\32\33\7\3\2\2\33\35\5\b\5\2\34\32\3\2\2\2\35 \3"+
+		"\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37\7\3\2\2\2 \36\3\2\2\2!\"\t\2\2\2"+
+		"\"\t\3\2\2\2\4\17\36";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
