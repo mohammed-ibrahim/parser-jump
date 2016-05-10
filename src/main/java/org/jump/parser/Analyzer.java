@@ -16,12 +16,7 @@ public class Analyzer extends JumpBaseVisitor<WrappedResult> {
 
         return list;
     }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
+
 	@Override public WrappedResult visitFieldConfig(JumpParser.FieldConfigContext ctx) { 
         WrappedResult wr = new WrappedResult();
 
@@ -40,6 +35,15 @@ public class Analyzer extends JumpBaseVisitor<WrappedResult> {
         WrappedResult paramList = (WrappedResult)visit(ctx.param_list());
         wr.getList().addAll(paramList.getList()); 
         //wr.addToList(paramName.getItem());
+
+        return wr;
+    }
+
+	@Override public WrappedResult visitEmptyFieldConfig(JumpParser.EmptyFieldConfigContext ctx) { 
+        WrappedResult wr = new WrappedResult();
+
+        wr.addToList(ctx.WORD(0).getText());
+        wr.addToList(ctx.WORD(1).getText());
 
         return wr;
     }

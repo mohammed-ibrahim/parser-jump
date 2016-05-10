@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 
 public class JumpGen {
     public static void main(String[] args) {
-        String str = "field_id = sql_com(\"select * from table1 adn ,''  then !#$!, \", 2)";
+        String str = "field_3 = sql_com(\"select * from table1 adn ,''  then !#$!, \", 2), field_2 = now()";
 
         if (args.length > 0) {
             str = args[0];

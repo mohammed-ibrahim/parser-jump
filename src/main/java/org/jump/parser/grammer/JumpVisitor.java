@@ -25,6 +25,13 @@ public interface JumpVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFieldConfig(JumpParser.FieldConfigContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code EmptyFieldConfig}
+	 * labeled alternative in {@link JumpParser#field_config}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEmptyFieldConfig(JumpParser.EmptyFieldConfigContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ParamList}
 	 * labeled alternative in {@link JumpParser#param_list}.
 	 * @param ctx the parse tree

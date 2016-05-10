@@ -12,6 +12,7 @@ input           : field_config (',' field_config)*                              
                 ;
 
 field_config    : WORD EQ WORD OPENPAREN param_list CLOSEPAREN                      #FieldConfig
+                | WORD EQ WORD OPENPAREN CLOSEPAREN                                 #EmptyFieldConfig
                 ;
 
 param_list      : item (',' item)*                                                  #ParamList
