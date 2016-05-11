@@ -7,6 +7,12 @@ EQ              : '=';
 OPENPAREN       : '(';
 CLOSEPAREN      : ')';
 
+statement       : command ';' (command ';')*                                        #PrimaryStatement
+                ;
+
+command         : 'sql:' STRING (',' STRING)*                                       #SqlStatement
+                | 'insert' OPENPAREN WORD ',' WORD CLOSEPAREN ':' input            #InsertStatement
+                ;
 
 input           : field_config (',' field_config)*                                  #FieldConfigList
                 ;
