@@ -32,7 +32,7 @@ public class JumpGen {
         System.out.println("Finally obtained string is: " + res.toString());
     }
 
-    public static ArrayList<Object> parseFields(String queryString) {
+    public static ArrayList<Object> parse(String queryString) {
         try {
             ANTLRInputStream input = new ANTLRInputStream(queryString);
             JumpLexer lexer = new JumpLexer(input);
