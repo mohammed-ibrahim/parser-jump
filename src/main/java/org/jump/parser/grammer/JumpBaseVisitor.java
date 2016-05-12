@@ -38,6 +38,13 @@ public class JumpBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements J
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitRollbackStatement(JumpParser.RollbackStatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitFieldConfigList(JumpParser.FieldConfigListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

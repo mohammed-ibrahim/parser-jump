@@ -49,6 +49,10 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return cmd;
     }
 
+	@Override public Object visitRollbackStatement(JumpParser.RollbackStatementContext ctx) { 
+        return new RollbackCommand();
+    }
+
 	@Override public Object visitFieldConfigList(JumpParser.FieldConfigListContext ctx) { 
         ArrayList<FieldConfig> fclist = new ArrayList<FieldConfig>();
         for (int i =0; i< ctx.field_config().size(); i++) {
