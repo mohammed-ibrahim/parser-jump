@@ -36,10 +36,13 @@ public class JumpGen {
         try {
             ANTLRInputStream input = new ANTLRInputStream(queryString);
             JumpLexer lexer = new JumpLexer(input);
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(DescriptiveErrorListener.INSTANCE);
     
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             JumpParser parser = new JumpParser(tokens);
-            parser.setErrorHandler(new BailErrorStrategy());
+            parser.removeErrorListeners();
+            parser.addErrorListener(DescriptiveErrorListener.INSTANCE);
 
             ParseTree tree = parser.statement();
             Analyzer builder = new Analyzer();
