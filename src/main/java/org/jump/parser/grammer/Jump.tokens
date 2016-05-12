@@ -9,11 +9,11 @@ WORD=8
 EQ=9
 OPENPAREN=10
 CLOSEPAREN=11
-';'=1
-'sql:'=2
+'sql'=1
+'{'=2
 ','=3
-'insert'=4
-':'=5
+'}'=4
+'insert'=5
 '='=9
 '('=10
 ')'=11

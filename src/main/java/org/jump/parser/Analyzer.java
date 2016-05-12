@@ -20,7 +20,7 @@ public class Analyzer extends JumpBaseVisitor<Object> {
 	@Override public Object visitSqlStatement(JumpParser.SqlStatementContext ctx) { 
         ArrayList<String> items = new ArrayList<String>();     
         for (int i =0; i < ctx.STRING().size(); i++) {
-            items.add(ctx.STRING(i).getText());
+            items.add(stripQuotes(ctx.STRING(i).getText()));
         }
 
         SqlCommand cmd = new SqlCommand();

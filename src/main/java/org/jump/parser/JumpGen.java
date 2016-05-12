@@ -49,6 +49,7 @@ public class JumpGen {
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
+            System.out.println(e.getMessage());
             System.out.println(sw.toString());
             return null;
         }
