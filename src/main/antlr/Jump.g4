@@ -7,16 +7,23 @@ EQ              : '=';
 OPENPAREN       : '(';
 CLOSEPAREN      : ')';
 
-
-input           : field_config (',' field_config)*                                  #FieldConfigList
+statement       : command  (command )*                                             #PrimaryStatement
                 ;
 
-field_config    : WORD EQ WORD OPENPAREN param_list CLOSEPAREN                      #FieldConfig
-                | WORD EQ WORD OPENPAREN CLOSEPAREN                                 #EmptyFieldConfig
+command         : 'sql' OPENPAREN CLOSEPAREN '{'  STRING (',' STRING)*  '}'        #SqlStatement
+                | 'insert' OPENPAREN WORD ',' WORD CLOSEPAREN '{' input '}'        #InsertStatement
+                | 'rollback' OPENPAREN CLOSEPAREN                                  #RollbackStatement
                 ;
 
-param_list      : item (',' item)*                                                  #ParamList
+input           : field_config (',' field_config)*                                 #FieldConfigList
                 ;
 
-item            : (STRING | WORD)                                                   #ParamItem
+field_config    : WORD EQ WORD OPENPAREN param_list CLOSEPAREN                     #FieldConfig
+                | WORD EQ WORD OPENPAREN CLOSEPAREN                                #EmptyFieldConfig
+                ;
+
+param_list      : item (',' item)*                                                 #ParamList
+                ;
+
+item            : (STRING | WORD)                                                  #ParamItem
                 ;

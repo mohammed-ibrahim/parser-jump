@@ -11,6 +11,34 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface JumpVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by the {@code PrimaryStatement}
+	 * labeled alternative in {@link JumpParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrimaryStatement(JumpParser.PrimaryStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SqlStatement}
+	 * labeled alternative in {@link JumpParser#command}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSqlStatement(JumpParser.SqlStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InsertStatement}
+	 * labeled alternative in {@link JumpParser#command}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInsertStatement(JumpParser.InsertStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code RollbackStatement}
+	 * labeled alternative in {@link JumpParser#command}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRollbackStatement(JumpParser.RollbackStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code FieldConfigList}
 	 * labeled alternative in {@link JumpParser#input}.
 	 * @param ctx the parse tree

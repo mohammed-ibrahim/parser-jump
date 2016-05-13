@@ -1,74 +1,114 @@
-    // Generated from ./src/main/antlr/Jump.g4 by ANTLR 4.5.1
 package org.jump.parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 import org.jump.parser.grammer.*;
 import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 
-public class Analyzer extends JumpBaseVisitor<WrappedResult> {
-	@Override public WrappedResult visitFieldConfigList(JumpParser.FieldConfigListContext ctx) { 
-        WrappedResult list = new WrappedResult();
+public class Analyzer extends JumpBaseVisitor<Object> {
+	@Override public Object visitPrimaryStatement(JumpParser.PrimaryStatementContext ctx) { 
+        ArrayList<Object> items = new ArrayList<Object>();
+
+        for (int i =0; i < ctx.command().size(); i++) {
+            Object item = (Object)visit(ctx.command(i));
+            items.add(item);
+        }
+
+        return items;
+    }
+
+	@Override public Object visitSqlStatement(JumpParser.SqlStatementContext ctx) { 
+        ArrayList<String> items = new ArrayList<String>();     
+        for (int i =0; i < ctx.STRING().size(); i++) {
+            items.add(stripQuotes(ctx.STRING(i).getText()));
+        }
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.setSqls(items);
+
+        return cmd;
+    }
+
+	@Override public Object visitInsertStatement(JumpParser.InsertStatementContext ctx) { 
+        InsertCommand cmd = new InsertCommand();
+
+        cmd.setTableName(ctx.WORD(0).getText());
+        String numRowsText = ctx.WORD(1).getText();
+
+        if (!StringUtils.isNumeric(numRowsText)) {
+            throw new RuntimeException("2nd Parameter passed to insert(table_name, num_rows) should be integer: Line: " 
+                + ctx.getStart().getLine() 
+                + " Col: " 
+                + ctx.getStart().getCharPositionInLine());
+        }
+        cmd.setNumRows(Integer.parseInt(ctx.WORD(1).getText()));
+
+        ArrayList<FieldConfig> fields = (ArrayList<FieldConfig>)visit(ctx.input());
+        cmd.setFieldConfigs(fields);
+        
+        return cmd;
+    }
+
+	@Override public Object visitRollbackStatement(JumpParser.RollbackStatementContext ctx) { 
+        return new RollbackCommand();
+    }
+
+	@Override public Object visitFieldConfigList(JumpParser.FieldConfigListContext ctx) { 
+        ArrayList<FieldConfig> fclist = new ArrayList<FieldConfig>();
         for (int i =0; i< ctx.field_config().size(); i++) {
 
-            WrappedResult inner = (WrappedResult)visit(ctx.field_config(i));
-            list.addToFinalList(inner.getList());
+            FieldConfig inner = (FieldConfig)visit(ctx.field_config(i));
+            fclist.add(inner);
         }
 
-        return list;
+        return fclist;
     }
 
-	@Override public WrappedResult visitFieldConfig(JumpParser.FieldConfigContext ctx) { 
-        WrappedResult wr = new WrappedResult();
+	@Override public Object visitFieldConfig(JumpParser.FieldConfigContext ctx) { 
+        FieldConfig fc = new FieldConfig();
 
-        //WrappedResult item0 = (WrappedResult)visit(ctx.item(0));
-        //WrappedResult item1 = (WrappedResult)visit(ctx.item(1));
-        wr.addToList(ctx.WORD(0).getText());
-        wr.addToList(ctx.WORD(1).getText());
+        fc.setFieldName(ctx.WORD(0).getText());
+        fc.setFnName(ctx.WORD(1).getText());
 
-        //wr.addToList(ctx.STRING(2).getText());
-        //WrappedResult fiName = (WrappedResult)visit(ctx.field_name());
-        //wr.addToList(fiName.getItem());
+        ArrayList<String> paramList = (ArrayList<String>)visit(ctx.param_list());
+        fc.setParams(paramList);
 
-        //WrappedResult fnName = (WrappedResult)visit(ctx.function_name());
-        //wr.addToList(fnName.getItem());
-
-        WrappedResult paramList = (WrappedResult)visit(ctx.param_list());
-        wr.getList().addAll(paramList.getList()); 
-        //wr.addToList(paramName.getItem());
-
-        return wr;
+        return fc;
     }
 
-	@Override public WrappedResult visitEmptyFieldConfig(JumpParser.EmptyFieldConfigContext ctx) { 
-        WrappedResult wr = new WrappedResult();
+	@Override public Object visitEmptyFieldConfig(JumpParser.EmptyFieldConfigContext ctx) { 
+        FieldConfig fc = new FieldConfig();
 
-        wr.addToList(ctx.WORD(0).getText());
-        wr.addToList(ctx.WORD(1).getText());
+        fc.setFieldName(ctx.WORD(0).getText());
+        fc.setFnName(ctx.WORD(1).getText());
 
-        return wr;
+        return fc;
     }
 
-	@Override public WrappedResult visitParamList(JumpParser.ParamListContext ctx) { 
-        WrappedResult wr = new WrappedResult();
+	@Override public Object visitParamList(JumpParser.ParamListContext ctx) { 
+        ArrayList<String> items = new ArrayList<String>();
         for (int i=0; i< ctx.item().size(); i++) {
-            WrappedResult inner = (WrappedResult)visit(ctx.item(i));
-            wr.addToList(inner.getItem());
+            String inner = (String)visit(ctx.item(i));
+            items.add(inner);
         }
 
-        return wr;
+        return items;
     }
 
-	@Override public WrappedResult visitParamItem(JumpParser.ParamItemContext ctx) { 
+	@Override public Object visitParamItem(JumpParser.ParamItemContext ctx) { 
         if (ctx.STRING() != null) {
             String text = ctx.STRING().getText();
-            text = text.substring(1, text.length()-1);
-            return new WrappedResult(text);
+            return stripQuotes(text);
         }
 
         if (ctx.WORD() != null) {
-            return new WrappedResult(ctx.WORD().getText());
+            return (ctx.WORD().getText());
         }
 
         throw new RuntimeException("Given text is neither word not text");
+    }
+
+    private String stripQuotes(String text) {
+        return text.substring(1, text.length()-1);
     }
 }
