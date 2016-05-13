@@ -32,7 +32,7 @@ public class JumpGen {
         System.out.println("Finally obtained string is: " + res.toString());
     }
 
-    public static ArrayList<Object> parse(String queryString) {
+    public static ParseResult parse(String queryString) {
         try {
             ANTLRInputStream input = new ANTLRInputStream(queryString);
             JumpLexer lexer = new JumpLexer(input);
@@ -48,13 +48,11 @@ public class JumpGen {
             Analyzer builder = new Analyzer();
             ArrayList<Object> res = (ArrayList<Object>)builder.visit(tree);
     
-            return res;
+            return new ParseResult(res, null, null);
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
-            System.out.println(e.getMessage());
-            System.out.println(sw.toString());
-            return null;
+            return new ParseResult(null, e.getMessage(), sw.toString());
         }
     }
 }

@@ -16,7 +16,7 @@ public class DescriptiveErrorListener extends BaseErrorListener {
             sourceName = String.format("%s:%d:%d: ", sourceName, line, charPositionInLine);
         }
 
-        System.err.println(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
+        //System.err.println(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
 
         throw new RuntimeException(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
     }
