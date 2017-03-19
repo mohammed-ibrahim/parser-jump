@@ -13,8 +13,10 @@ import java.io.PrintWriter;
 
 public class JumpGen {
     public static void main(String[] args) {
-        String str = "sql: \"select * from a\",\n \"select * from b\";\n insert(table1, 4a00): id = fake(name);";
+        String str = "";
+        str += "   # hello world \n sql() {\"yes\"} \n";
 
+        str += "    # text";
         if (args.length > 0) {
             str = args[0];
         }
@@ -38,7 +40,7 @@ public class JumpGen {
             JumpLexer lexer = new JumpLexer(input);
             lexer.removeErrorListeners();
             lexer.addErrorListener(DescriptiveErrorListener.INSTANCE);
-    
+
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             JumpParser parser = new JumpParser(tokens);
             parser.removeErrorListeners();
@@ -47,7 +49,7 @@ public class JumpGen {
             ParseTree tree = parser.statement();
             Analyzer builder = new Analyzer();
             ArrayList<Object> res = (ArrayList<Object>)builder.visit(tree);
-    
+
             return new ParseResult(res, null, null);
         } catch (Exception e) {
             StringWriter sw = new StringWriter();

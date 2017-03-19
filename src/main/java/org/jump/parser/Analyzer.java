@@ -6,7 +6,7 @@ import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 public class Analyzer extends JumpBaseVisitor<Object> {
-	@Override public Object visitPrimaryStatement(JumpParser.PrimaryStatementContext ctx) { 
+    @Override public Object visitPrimaryStatement(JumpParser.PrimaryStatementContext ctx) {
         ArrayList<Object> items = new ArrayList<Object>();
 
         for (int i =0; i < ctx.command().size(); i++) {
@@ -17,8 +17,8 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return items;
     }
 
-	@Override public Object visitSqlStatement(JumpParser.SqlStatementContext ctx) { 
-        ArrayList<String> items = new ArrayList<String>();     
+    @Override public Object visitSqlStatement(JumpParser.SqlStatementContext ctx) {
+        ArrayList<String> items = new ArrayList<String>();
         for (int i =0; i < ctx.STRING().size(); i++) {
             items.add(stripQuotes(ctx.STRING(i).getText()));
         }
@@ -29,31 +29,31 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return cmd;
     }
 
-	@Override public Object visitInsertStatement(JumpParser.InsertStatementContext ctx) { 
+    @Override public Object visitInsertStatement(JumpParser.InsertStatementContext ctx) {
         InsertCommand cmd = new InsertCommand();
 
         cmd.setTableName(ctx.WORD(0).getText());
         String numRowsText = ctx.WORD(1).getText();
 
         if (!StringUtils.isNumeric(numRowsText)) {
-            throw new RuntimeException("2nd Parameter passed to insert(table_name, num_rows) should be integer: Line: " 
-                + ctx.getStart().getLine() 
-                + " Col: " 
+            throw new RuntimeException("2nd Parameter passed to insert(table_name, num_rows) should be integer: Line: "
+                + ctx.getStart().getLine()
+                + " Col: "
                 + ctx.getStart().getCharPositionInLine());
         }
         cmd.setNumRows(Integer.parseInt(ctx.WORD(1).getText()));
 
         ArrayList<FieldConfig> fields = (ArrayList<FieldConfig>)visit(ctx.input());
         cmd.setFieldConfigs(fields);
-        
+
         return cmd;
     }
 
-	@Override public Object visitRollbackStatement(JumpParser.RollbackStatementContext ctx) { 
+    @Override public Object visitRollbackStatement(JumpParser.RollbackStatementContext ctx) {
         return new RollbackCommand();
     }
 
-	@Override public Object visitFieldConfigList(JumpParser.FieldConfigListContext ctx) { 
+    @Override public Object visitFieldConfigList(JumpParser.FieldConfigListContext ctx) {
         ArrayList<FieldConfig> fclist = new ArrayList<FieldConfig>();
         for (int i =0; i< ctx.field_config().size(); i++) {
 
@@ -64,7 +64,7 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return fclist;
     }
 
-	@Override public Object visitFieldConfig(JumpParser.FieldConfigContext ctx) { 
+    @Override public Object visitFieldConfig(JumpParser.FieldConfigContext ctx) {
         FieldConfig fc = new FieldConfig();
 
         fc.setFieldName(ctx.WORD(0).getText());
@@ -76,7 +76,7 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return fc;
     }
 
-	@Override public Object visitEmptyFieldConfig(JumpParser.EmptyFieldConfigContext ctx) { 
+    @Override public Object visitEmptyFieldConfig(JumpParser.EmptyFieldConfigContext ctx) {
         FieldConfig fc = new FieldConfig();
 
         fc.setFieldName(ctx.WORD(0).getText());
@@ -85,7 +85,7 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return fc;
     }
 
-	@Override public Object visitParamList(JumpParser.ParamListContext ctx) { 
+    @Override public Object visitParamList(JumpParser.ParamListContext ctx) {
         ArrayList<String> items = new ArrayList<String>();
         for (int i=0; i< ctx.item().size(); i++) {
             String inner = (String)visit(ctx.item(i));
@@ -95,7 +95,7 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         return items;
     }
 
-	@Override public Object visitParamItem(JumpParser.ParamItemContext ctx) { 
+    @Override public Object visitParamItem(JumpParser.ParamItemContext ctx) {
         if (ctx.STRING() != null) {
             String text = ctx.STRING().getText();
             return stripQuotes(text);

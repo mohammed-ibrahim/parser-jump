@@ -46,7 +46,7 @@ public class FieldConfig {
     public void setParams(ArrayList<String> params) {
         this.params = params;
     }
-        
+
     public String toString() {
         return fieldName + " " + fnName + " " + params.toString();
     }

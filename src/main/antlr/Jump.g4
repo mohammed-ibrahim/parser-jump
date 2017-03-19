@@ -1,11 +1,12 @@
 grammar Jump;
 
-ESC             : [ \t\n\r]+ -> skip;
-STRING          : '"' (~[\\"] | '\\' [\\"])* '"';
-WORD            : ~[ \t\r\n"*)(=,]+;
-EQ              : '=';
-OPENPAREN       : '(';
-CLOSEPAREN      : ')';
+ESC                 : [ \t\n\r]+ -> skip;
+LINE_COMMENT        : '#' ~[\r\n]* -> channel(HIDDEN);
+STRING              : '"' (~[\\"] | '\\' [\\"])* '"';
+WORD                : ~[ \t\r\n"*)(=,]+;
+EQ                  : '=';
+OPENPAREN           : '(';
+CLOSEPAREN          : ')';
 
 statement       : command  (command )*                                             #PrimaryStatement
                 ;
