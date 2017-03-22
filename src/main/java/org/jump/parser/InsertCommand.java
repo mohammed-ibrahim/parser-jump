@@ -8,6 +8,8 @@ public class InsertCommand implements Command {
 
     private Integer numRows;
 
+    private String storageIdentifier;
+
     private ArrayList<FieldConfig> fieldConfigs = new ArrayList<FieldConfig>();
 
     public String getTableName() {
@@ -36,5 +38,13 @@ public class InsertCommand implements Command {
 
     public String toString() {
         return this.tableName + " " + this.numRows.toString() + " " + this.fieldConfigs.toString();
+    }
+
+    public String getStorageIdentifier() {
+        return storageIdentifier;
+    }
+
+    public void setStorageIdentifier(String storageIdentifier) {
+        this.storageIdentifier = storageIdentifier;
     }
 }

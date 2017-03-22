@@ -43,6 +43,10 @@ public class Analyzer extends JumpBaseVisitor<Object> {
         }
         cmd.setNumRows(Integer.parseInt(ctx.WORD(1).getText()));
 
+        if (ctx.WORD().size() > 2) {
+            cmd.setStorageIdentifier(ctx.WORD(2).getText());
+        }
+
         ArrayList<FieldConfig> fields = (ArrayList<FieldConfig>)visit(ctx.input());
         cmd.setFieldConfigs(fields);
 
